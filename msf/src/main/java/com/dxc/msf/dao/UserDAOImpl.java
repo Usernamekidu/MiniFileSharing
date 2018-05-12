@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dxc.msf.model.FileDTO;
 import com.dxc.msf.model.UserDTO;
 
 @Repository
@@ -55,10 +56,11 @@ public class UserDAOImpl implements UserDAO {
 
 	// Nhut Lam updateUser
 	@Override
-	public boolean updateUser(UserDTO user) {
+	public boolean updateUser(int userID) {
 		try {
 			Session session = getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
+			UserDTO user = getUser(userID);
 			session.update(user);
 			transaction.commit();
 			session.close();
@@ -118,6 +120,20 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
-
+	@Override
+	public List<Object[]> countUserActive() {
+		try {
+			Session session = getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+			String query = "SELECT Users.userActive , COUNT(Users.userActive)"
+					+ "FROM Users GROUP BY Users.userActive";
+			 List<Object[]> list = (List<Object[]>) session.createSQLQuery(query).list();
+			transaction.commit();
+			session.close();
+			return list;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 }

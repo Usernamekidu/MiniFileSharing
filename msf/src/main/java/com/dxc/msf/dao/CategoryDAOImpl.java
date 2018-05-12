@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dxc.msf.model.CategoryDTO;
 import com.dxc.msf.model.DownloadDTO;
+import com.dxc.msf.model.FileDTO;
 import com.dxc.msf.model.UserDTO;
 
 @Repository
@@ -40,10 +41,11 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 
 	@Override
-	public boolean UpdateCategory(CategoryDTO category) {
+	public boolean UpdateCategory(int categoryID) {
 		try {
 			Session session = sessionfactory.openSession();
 			Transaction transaction =session.beginTransaction();
+			CategoryDTO category = getCategoryByID(categoryID);
 			session.update(category);
 			transaction.commit();
 			session.close();
@@ -54,10 +56,11 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 
 	@Override
-	public boolean DeleteCategory(CategoryDTO category) {
+	public boolean DeleteCategory(int categoryID) {
 		try {
 			Session session = sessionfactory.openSession();
 			Transaction transaction =session.beginTransaction();
+			CategoryDTO category = getCategoryByID(categoryID);
 			session.delete(category);
 			transaction.commit();
 			session.close();
@@ -88,7 +91,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 		Session session = sessionfactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			CategoryDTO category = (CategoryDTO) session.get(CategoryDTO.class, new Integer(categoryID));
+			CategoryDTO category = (CategoryDTO) session.get(CategoryDTO.class, categoryID);
 			transaction.commit();
 			return category;
 		} catch (Exception e) {
@@ -98,5 +101,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 			session.close();
 		}
 	}
+
+	
+		
 	
 }

@@ -18,7 +18,7 @@ public class CategoryDTO extends AbstractDTO{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="categoryID")
-	private int categoryID;
+	public int categoryID;
 	
 	@Column(name = "categoryName")
 	private String categoryName;

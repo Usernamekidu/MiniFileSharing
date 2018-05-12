@@ -32,26 +32,24 @@ public class UserServiceImpl implements UserService {
 	public List<UserDTO> getListUser() {
 		return userDAO.getListUser();
 	}
-// Nhut Lam updateUser
+
+	// Nhut Lam updateUser
+
 	@Override
-	public boolean updateUser(UserDTO user) {
-		boolean success = userDAO.updateUser(user);
-		if (success) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean updateUser(int userID) {
+		return userDAO.updateUser(userID);
 	}
-//Nhut Lam deleteUser
-//	@Override
-//	public boolean disableUser(UserDTO user) {
-//		boolean success = userDAO.disableUser(user);
-//		if (success) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
+
+	// Nhut Lam deleteUser
+	// @Override
+	// public boolean disableUser(UserDTO user) {
+	// boolean success = userDAO.disableUser(user);
+	// if (success) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// }
 
 	@Override
 	public UserDTO getUser(int userID) {
@@ -62,8 +60,9 @@ public class UserServiceImpl implements UserService {
 	public boolean isActive(int userID, int status) {
 		return userDAO.isActive(userID, status);
 	}
-
-
-
-	
+	@Override
+	public List<Object[]> countUserActive() {
+		// TODO Auto-generated method stub
+		return userDAO.countUserActive();
+	}
 }

@@ -22,6 +22,8 @@ import com.dxc.msf.model.FileDTO;
 import com.dxc.msf.model.UserDTO;
 import com.dxc.msf.service.FileService;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 @Controller
 public class FileController {
@@ -55,7 +57,7 @@ public class FileController {
 		}
 		return "{\"status\": \"Failed\"}";
 	}
-
+//List Download 
 	@RequestMapping(value = "/file/listDownload", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody String getListDownloadFile() {
 		List<DownloadDTO> list = fileService.getListDownloadFile();
@@ -101,10 +103,10 @@ public class FileController {
 	}
 
 	// Nhut Lam update file
+	
 	@RequestMapping(value = "/file/update", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
-	public @ResponseBody String eventUpdate(@RequestBody FileDTO file) {
-		
-		boolean success = fileService.UpdateFile(file);
+	public @ResponseBody String eventUpdate(@RequestBody int fileID) {
+		boolean success = fileService.UpdateFile(fileID);
 		System.out.println(success);
 		if (success) {
 			return "{\"status\": \"OK\"}";
@@ -115,15 +117,15 @@ public class FileController {
 	}
 
 	// Nhut Lam delete file
+
 	@RequestMapping(value = "/file/delete", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
-	public @ResponseBody String eventDelete(@RequestBody FileDTO file) {
-		boolean success = fileService.DeleteFile(file);
+	public @ResponseBody String eventDelete(@RequestBody int fileID) {
+		boolean success = fileService.DeleteFile(fileID);
 		if (success) {
 			return "{\"status\": \"OK\"}";
 		} else {
 			return "{\"status\": \"Failed\"}";
 		}
-
 	}
 
 	@RequestMapping(value = "/file/list", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
@@ -132,19 +134,37 @@ public class FileController {
 		String json = new Gson().toJson(list);
 		return json;
 	}
-	
-	//vungo
+
+	// vungo
 	@RequestMapping(value = "/file/searchfile/{fileName}&&{uploader}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
-	public @ResponseBody String searchFile(@PathVariable("fileName") String fileName,@PathVariable("uploader") String uploader) {
-		List<FileDTO> list = fileService.searchFiles(fileName,uploader );
+	public @ResponseBody String searchFile(
+			@PathVariable("fileName") String fileName,
+			@PathVariable("uploader") String uploader) {
+		List<FileDTO> list = fileService.searchFiles(fileName, uploader);
 		String json = new Gson().toJson(list);
 		return json;
 	}
-	
+
 	@RequestMapping(value = "/file/getFile/{fileID}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
-	public @ResponseBody String getFileByID(@PathVariable("fileID")int fileID) {
+	public @ResponseBody String getFileByID(@PathVariable("fileID") int fileID) {
 		FileDTO file = fileService.getFileByID(fileID);
 		String json = new Gson().toJson(file);
 		return json;
-}
+	}
+	
+	@RequestMapping(value = "/file/countFile", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	public @ResponseBody String countFile() {
+		List<Object[]> list = fileService.countFileInCategoty();
+		
+		JsonArray arrayJson = new JsonArray();
+		for(int i = 0 ; i<list.size();i++)
+		{
+			JsonObject newObject = new JsonObject() ;
+			newObject.addProperty("label",list.get(i)[0].toString());
+			newObject.addProperty("value",list.get(i)[1].toString());
+			arrayJson.add(newObject);
+		}
+		String json = new Gson().toJson(arrayJson);
+		return json;
+	}
 }

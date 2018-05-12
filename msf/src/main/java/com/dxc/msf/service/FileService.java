@@ -20,15 +20,16 @@ public interface FileService {
 	public boolean addDownloadFile(DownloadDTO download);
 	public List<DownloadDTO> getListDownloadFile();
 	//Nhut Lam update file
-	public boolean UpdateFile(FileDTO file);
+	public boolean UpdateFile(int fileID);
 	//Nhut Lam delete file
-	public boolean DeleteFile(FileDTO file);
 	public FileDTO getFileByID(int fileID);	
+	public boolean DeleteFile(int fileID);
 	//vungo
 	public void autoUpRank(int userID);
 	public boolean checkFileSizeUpload(int userID,double currentFileSize);
 	public boolean checkSizeFilesDownload(int userID,double currentFileSize);
 	public List<FileDTO> searchFiles(String searchByFileName, String searchByUploader);
+	public List<Object[]> countFileInCategoty();
 	//-----------------//
 	
 }

@@ -44,10 +44,11 @@ public class FileDAOImpl implements FileDAO {
 
 	// Nhut Lam update file
 	@Override
-	public boolean UpdateFile(FileDTO file) {
+	public boolean UpdateFile(int fileID) {
 		try {
 			Session session = sessionfactory.openSession();
 			Transaction transaction = session.beginTransaction();
+			FileDTO file = getFileByID(fileID);
 			session.update(file);
 			transaction.commit();
 			session.close();
@@ -59,10 +60,11 @@ public class FileDAOImpl implements FileDAO {
 
 	// Nhut Lam delete file
 	@Override
-	public boolean DeleteFile(FileDTO file) {
+	public boolean DeleteFile(int fileID) {
 		try {
 			Session session = sessionfactory.openSession();
 			Transaction transaction = session.beginTransaction();
+			FileDTO file = getFileByID(fileID);
 			session.delete(file);
 			transaction.commit();
 			session.close();
@@ -109,7 +111,6 @@ public class FileDAOImpl implements FileDAO {
 	@Override
 	// vungo
 	public void autoUpRank(int userID) {
-		// TODO Auto-generated method stub
 		Session session = sessionfactory.openSession();
 		Transaction transaction = session.beginTransaction();
 
@@ -197,7 +198,8 @@ public class FileDAOImpl implements FileDAO {
 		Transaction transaction = session.beginTransaction();
 
 		try {
-			FileDTO file = (FileDTO) session.get(FileDTO.class, new Integer(fileID));
+			FileDTO file = (FileDTO) session.get(FileDTO.class, new Integer(
+					fileID));
 			transaction.commit();
 			return file;
 		} catch (Exception e) {
@@ -208,5 +210,39 @@ public class FileDAOImpl implements FileDAO {
 
 		}
 	}
+
+	@Override
+	public boolean DeleteFileTest(int fileID) {
+		try {
+			Session session = sessionfactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			FileDTO file = getFileByID(fileID);
+			session.delete(file);
+			transaction.commit();
+			session.close();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	@Override
+	public  List<Object[]> countFileInCategoty() {
+		Session session = sessionfactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			String query = "SELECT Categories.categoryName,COUNT(Files.fileID)"
+					+ " FROM Files Inner JOIN Categories ON Files.categoryID=Categories.categoryID "
+					+ "GROUP BY Categories.categoryName";
+			 List<Object[]> list = (List<Object[]>) session.createSQLQuery(query).list();
+			transaction.commit();
+			session.close();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
 
 }

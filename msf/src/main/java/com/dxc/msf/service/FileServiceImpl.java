@@ -166,41 +166,22 @@ public class FileServiceImpl implements FileService {
 
 	// update file
 	@Override
-	public boolean UpdateFile(FileDTO file) {
-		boolean susscess = fileDao.UpdateFile(file);
-		if (susscess) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean UpdateFile(int fileID) {
+		return fileDao.UpdateFile(fileID);
+		
 	}
-
-	// delete file
-	@Override
-	public boolean DeleteFile(FileDTO file) {
-		boolean susscess = fileDao.DeleteFile(file);
-		if (susscess) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	@Override
 	public void autoUpRank(int userID) {
-		// TODO Auto-generated method stub
 		fileDao.autoUpRank(userID);
 	}
 
 	@Override
 	public boolean checkFileSizeUpload(int userID, double currentFileSize) {
-		// TODO Auto-generated method stub
 		return fileDao.checkFileSizeUpload(userID, currentFileSize);
 	}
 
 	@Override
 	public boolean checkSizeFilesDownload(int userID, double currentFileSize) {
-		// TODO Auto-generated method stub
 		return downloadFileDAO.checkSizeFilesDownload(userID, currentFileSize);
 	}
 
@@ -215,5 +196,15 @@ public class FileServiceImpl implements FileService {
 		return fileDao.getFileByID(fileID);
 
 	}
-
+	
+	// delete file
+	@Override
+	public boolean DeleteFile(int fileID) {
+		return fileDao.DeleteFileTest(fileID);
+	}
+	@Override
+	public List<Object[]> countFileInCategoty() {
+		// TODO Auto-generated method stub
+		return fileDao.countFileInCategoty();
+	}
 }

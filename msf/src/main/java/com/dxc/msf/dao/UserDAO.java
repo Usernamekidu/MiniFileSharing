@@ -8,8 +8,9 @@ public interface UserDAO {
 	public boolean createUser(UserDTO user);
 	public List<UserDTO> getListUser();
 	//Nhut Lam
-	public boolean updateUser(UserDTO user);
+	public boolean updateUser(int userID);
 //	public boolean disableUser(UserDTO user);
 	public boolean isActive(int userID,int status);
 	public UserDTO getUser(int userID);
+	public List<Object[]> countUserActive();
 }

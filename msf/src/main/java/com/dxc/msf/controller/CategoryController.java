@@ -41,8 +41,8 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/category/edit", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
-	public @ResponseBody String eventEdit(@RequestBody CategoryDTO category) {
-		boolean success = categoryService.UpdateCategory(category);
+	public @ResponseBody String eventEdit(@RequestBody int categoryID) {
+		boolean success = categoryService.UpdateCategory(categoryID);
 		if (success) {
 			return "{\"status\": \"OK\"}";
 		} else {
@@ -51,8 +51,8 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/category/delete", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
-	public @ResponseBody String eventDelete(@RequestBody CategoryDTO category) {
-		boolean success = categoryService.DeleteCategory(category);
+	public @ResponseBody String eventDelete(@RequestBody int categoryID) {
+		boolean success = categoryService.DeleteCategory(categoryID);
 		if (success) {
 			return "{\"status\": \"OK\"}";
 		} else {
